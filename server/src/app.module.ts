@@ -1,3 +1,4 @@
+import { RedisModule } from "@liaoliaots/nestjs-redis";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
@@ -10,6 +11,12 @@ import { AppService } from "./app.service";
       isGlobal: true,
     }),
     MongooseModule.forRoot(process.env.MONGODB_URL),
+    RedisModule.forRoot({
+      config: {
+        host: process.env.REDIS_HOST,
+        port: Number(process.env.REDIS_PORT),
+      },
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
