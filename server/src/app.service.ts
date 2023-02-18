@@ -7,6 +7,6 @@ export class AppService {
   constructor(@InjectRedis() private readonly redis: Redis) {}
 
   async getHello() {
-    return "hello world";
+    return "hellow world";
   }
 }
