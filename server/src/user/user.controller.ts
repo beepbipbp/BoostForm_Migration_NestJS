@@ -1,4 +1,5 @@
-import { Controller, Get, HttpException, Query, Redirect, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Controller, Get, HttpException, Query, Redirect, Res, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Response } from "express";
 import { UserService } from "./user.service";
 
 @Controller("api/users")
@@ -6,19 +7,24 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get("redirect")
-  @Redirect(process.env.GITHUB_AUTHORIZE_URL, 301)
-  redirect() {
+  redirect(@Res() res: Response) {
     if (!process.env.GITHUB_AUTHORIZE_URL) {
       return "";
     }
+    res.status(301).redirect(process.env.GITHUB_AUTHORIZE_URL);
   }
 
   @Get("login")
-  async logIn(@Query("code") code: string) {
+  async logIn(@Query("code") code: string, @Res() res: Response) {
     if (!code) {
       throw new HttpException("code is empty", 400);
     }
 
-    await this.userService.login(code);
+    const tokens = await this.userService.login(code);
+
+    res
+      .cookie("accessToken", tokens.accessToken)
+      .cookie("refreshToken", tokens.refreshToken, { httpOnly: true })
+      .redirect(`${process.env.ORIGIN_URL}/myForms`);
   }
 }
