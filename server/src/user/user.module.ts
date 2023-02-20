@@ -1,5 +1,6 @@
 import { HttpModule } from "@nestjs/axios";
 import { Module } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { MongooseModule } from "@nestjs/mongoose";
 import { UserController } from "./user.controller";
@@ -11,8 +12,11 @@ import { UserService } from "./user.service";
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     HttpModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => {
+        return { secret: config.get("JWT_SECRET") };
+      },
     }),
   ],
   controllers: [UserController],
