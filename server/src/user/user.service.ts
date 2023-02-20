@@ -22,6 +22,14 @@ export class UserService {
     if (!user || typeof user.id !== "string") {
       throw new HttpException("mongodb error", 500);
     }
+
+    const accessToken = this.generateToken(user.id, "1m");
+    const refreshToken = this.generateToken(user.id, "7d");
+
+    user.refresh_token = refreshToken;
+    await user.save();
+
+    return { accessToken, refreshToken };
   }
 
   async issueGithubAccessToken(code: string) {
@@ -55,7 +63,7 @@ export class UserService {
     return userName;
   }
 
-  generateToken(userId, expiresIn) {
+  generateToken(userId: string, expiresIn: string) {
     const token = this.jwtService.sign({ id: userId }, { expiresIn });
 
     return token;
