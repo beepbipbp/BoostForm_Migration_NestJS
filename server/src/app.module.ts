@@ -5,6 +5,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { LoggerMiddleware } from "./common/middlewares/logger.middleware";
+import { UserModule } from "./user/user.module";
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { LoggerMiddleware } from "./common/middlewares/logger.middleware";
         port: Number(process.env.REDIS_PORT),
       },
     }),
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
