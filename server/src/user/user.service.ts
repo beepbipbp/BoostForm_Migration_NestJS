@@ -1,13 +1,27 @@
 import { HttpService } from "@nestjs/axios";
 import { HttpException, Injectable } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import { UserRepository } from "./user.repository";
 
 @Injectable()
 export class UserService {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly jwtService: JwtService,
+    private readonly userRepository: UserRepository,
+  ) {}
 
   async login(code: string) {
     const githubAccessToken = await this.issueGithubAccessToken(code);
     const userName = await this.getGithubUserName(githubAccessToken);
+    let user = await this.userRepository.findUserByName(userName);
+
+    if (!user) {
+      user = await this.userRepository.signUp(userName);
+    }
+    if (!user || typeof user.id !== "string") {
+      throw new HttpException("mongodb error", 500);
+    }
   }
 
   async issueGithubAccessToken(code: string) {
@@ -39,5 +53,11 @@ export class UserService {
       });
 
     return userName;
+  }
+
+  generateToken(userId, expiresIn) {
+    const token = this.jwtService.sign({ id: userId }, { expiresIn });
+
+    return token;
   }
 }

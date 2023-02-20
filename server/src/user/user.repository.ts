@@ -6,4 +6,16 @@ import { User } from "./user.schema";
 @Injectable()
 export class UserRepository {
   constructor(@InjectModel(User.name) private readonly userModel: Model<User>) {}
+
+  async findUserByName(userName: string) {
+    const user = await this.userModel.findOne({ user_name: userName });
+
+    return user;
+  }
+
+  async signUp(userName: string) {
+    const newUser = new this.userModel();
+    newUser.user_name = userName;
+    return await newUser.save();
+  }
 }

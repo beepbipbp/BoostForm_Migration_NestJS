@@ -10,7 +10,7 @@ export class User extends Document {
   })
   @IsNotEmpty()
   @IsString()
-  name: string;
+  user_name: string;
 
   @Prop({
     type: String,
