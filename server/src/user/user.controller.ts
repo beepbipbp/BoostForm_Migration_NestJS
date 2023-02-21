@@ -1,4 +1,4 @@
-import { Controller, Get, HttpException, Query, Redirect, Res, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Controller, Get, HttpException, Query, Res } from "@nestjs/common";
 import { Response } from "express";
 import { UserService } from "./user.service";
 
