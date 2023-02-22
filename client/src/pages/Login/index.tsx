@@ -8,7 +8,7 @@ function Login() {
   const navigate = useNavigate();
 
   const handleClickOAuth: React.MouseEventHandler<HTMLButtonElement> = async () => {
-    window.location.href = `${process.env.REACT_APP_SERVER_ORIGIN_URL}/api/users/redirect`;
+    window.location.replace(`${process.env.REACT_APP_SERVER_ORIGIN_URL}/api/users/redirect`);
   };
 
   const handleClickHome: React.MouseEventHandler<HTMLButtonElement> = () => {
