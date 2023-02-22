@@ -60,7 +60,7 @@ export class AuthMiddleware implements NestMiddleware {
 
     if (refreshToken !== user.refresh_token) {
       // refreshToken이 탈취당한 경우
-      this.userService.logout();
+      user.refresh_token = null;
       throw new HttpException("Unauthorized", 401);
     }
 
