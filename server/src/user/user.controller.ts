@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, Query, Res } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpException, Query, Res } from "@nestjs/common";
 import { Response } from "express";
 import { UserService } from "./user.service";
 
@@ -8,9 +8,6 @@ export class UserController {
 
   @Get("redirect")
   redirect(@Res() res: Response) {
-    if (!process.env.GITHUB_AUTHORIZE_URL) {
-      return "";
-    }
     res.status(301).redirect(process.env.GITHUB_AUTHORIZE_URL);
   }
 
@@ -33,5 +30,12 @@ export class UserController {
     const user = await this.userService.getUser(userId);
 
     return user;
+  }
+
+  @Delete("logout")
+  async logOut(@Body("userId") userId: string, @Res() res: Response) {
+    await this.userService.logOut(userId);
+
+    res.clearCookie("accessToken").clearCookie("refreshToken").end();
   }
 }

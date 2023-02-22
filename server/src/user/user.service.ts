@@ -68,4 +68,12 @@ export class UserService {
 
     return { userID: user.id, userName: user.user_name };
   }
+
+  async logOut(userId: string) {
+    const user = await this.userRepository.findUser(userId);
+
+    user.refresh_token = null;
+
+    await user.save();
+  }
 }

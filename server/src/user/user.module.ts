@@ -27,5 +27,6 @@ import { UserService } from "./user.service";
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(AuthMiddleware).forRoutes({ path: "api/users/", method: RequestMethod.GET });
+    consumer.apply(AuthMiddleware).forRoutes({ path: "api/users/logout", method: RequestMethod.DELETE });
   }
 }
