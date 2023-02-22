@@ -51,7 +51,7 @@ export class AuthMiddleware implements NestMiddleware {
 
     const userId = decodedRefreshToken.id;
 
-    const user = await this.userRepository.findUserByName(userId);
+    const user = await this.userRepository.findUser(userId);
 
     if (!user) {
       // 유저가 존재하지 않는 경우

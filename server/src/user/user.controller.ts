@@ -27,9 +27,4 @@ export class UserController {
       .cookie("refreshToken", tokens.refreshToken, { httpOnly: true })
       .redirect(`${process.env.ORIGIN_URL}/myForms`);
   }
-
-  @Get("test")
-  async test(@Body("userId") userId: string) {
-    return `hello ${userId}`;
-  }
 }
