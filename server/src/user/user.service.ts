@@ -23,8 +23,8 @@ export class UserService {
       throw new HttpException("mongodb error", 500);
     }
 
-    const accessToken = this.generateToken(user.id, "1m");
-    const refreshToken = this.generateToken(user.id, "7d");
+    const accessToken = this.jwtService.sign({ id: user.id }, { expiresIn: "1m" });
+    const refreshToken = this.jwtService.sign({ id: user.id }, { expiresIn: "7d" });
 
     user.refresh_token = refreshToken;
     await user.save();
@@ -63,9 +63,5 @@ export class UserService {
     return userName;
   }
 
-  generateToken(userId: string, expiresIn: string) {
-    const token = this.jwtService.sign({ id: userId }, { expiresIn });
-
-    return token;
-  }
+  logout() {}
 }

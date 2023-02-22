@@ -1,4 +1,4 @@
-import { Controller, Get, HttpException, Query, Res } from "@nestjs/common";
+import { Body, Controller, Get, HttpException, Query, Res } from "@nestjs/common";
 import { Response } from "express";
 import { UserService } from "./user.service";
 
@@ -26,5 +26,10 @@ export class UserController {
       .cookie("accessToken", tokens.accessToken)
       .cookie("refreshToken", tokens.refreshToken, { httpOnly: true })
       .redirect(`${process.env.ORIGIN_URL}/myForms`);
+  }
+
+  @Get("test")
+  async test(@Body("userId") userId: string) {
+    return `hello ${userId}`;
   }
 }

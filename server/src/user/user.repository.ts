@@ -18,4 +18,10 @@ export class UserRepository {
     newUser.user_name = userName;
     return await newUser.save();
   }
+
+  async findUser(userId: string) {
+    const user = await this.userModel.findById(userId);
+
+    return user;
+  }
 }
