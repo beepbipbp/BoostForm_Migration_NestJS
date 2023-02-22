@@ -27,4 +27,11 @@ export class UserController {
       .cookie("refreshToken", tokens.refreshToken, { httpOnly: true })
       .redirect(`${process.env.ORIGIN_URL}/myForms`);
   }
+
+  @Get()
+  async getUser(@Body("userId") userId: string) {
+    const user = await this.userService.getUser(userId);
+
+    return user;
+  }
 }

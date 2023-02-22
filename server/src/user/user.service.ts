@@ -63,5 +63,9 @@ export class UserService {
     return userName;
   }
 
-  logout() {}
+  async getUser(userId: string) {
+    const user = await this.userRepository.findUser(userId);
+
+    return { userID: user.id, userName: user.user_name };
+  }
 }

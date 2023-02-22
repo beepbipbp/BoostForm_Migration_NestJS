@@ -1,5 +1,5 @@
 import { HttpModule } from "@nestjs/axios";
-import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { MongooseModule } from "@nestjs/mongoose";
@@ -26,6 +26,6 @@ import { UserService } from "./user.service";
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes("api/users/test");
+    consumer.apply(AuthMiddleware).forRoutes({ path: "api/users/", method: RequestMethod.GET });
   }
 }
