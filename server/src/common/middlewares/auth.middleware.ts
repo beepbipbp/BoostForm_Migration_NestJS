@@ -2,15 +2,10 @@ import { HttpException, Injectable, NestMiddleware } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { NextFunction, Request, Response } from "express";
 import { UserRepository } from "src/user/user.repository";
-import { UserService } from "src/user/user.service";
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
-  constructor(
-    private readonly userService: UserService,
-    private readonly userRepository: UserRepository,
-    private readonly jwtService: JwtService,
-  ) {}
+  constructor(private readonly userRepository: UserRepository, private readonly jwtService: JwtService) {}
   async use(req: Request, res: Response, next: NextFunction) {
     const accessToken = req?.cookies?.accessToken;
     const refreshToken = req?.cookies?.refreshToken;
