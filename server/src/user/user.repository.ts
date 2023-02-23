@@ -24,4 +24,13 @@ export class UserRepository {
 
     return user;
   }
+
+  async checkUserExists(userId: string) {
+    const user = await this.userModel.exists({ id: userId });
+
+    if (user) {
+      return true;
+    }
+    return false;
+  }
 }

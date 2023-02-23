@@ -10,11 +10,17 @@ export class FormService {
   constructor(private readonly formRepository: FormRepository, private readonly userRepository: UserRepository) {}
 
   async getFormList(userId: string, cursor: string) {
+    const isUserExists = await this.userRepository.checkUserExists(userId);
+
+    if (!isUserExists) {
+      throw new NotFoundException();
+    }
+
     const rawFormList = await this.formRepository.findFormListWithCursor(userId, cursor);
 
     const formList = rawFormList.map((form) => {
       return {
-        _id: form.id,
+        _id: `${form._id}`,
         title: form.form_title,
         acceptResponse: form.accept_response,
         updatedAt: getDateString(form.updatedAt),
@@ -29,5 +35,17 @@ export class FormService {
       form: formList,
       lastId,
     };
+  }
+
+  async createNewForm(userId: string) {
+    const isUserExists = await this.userRepository.checkUserExists(userId);
+
+    if (!isUserExists) {
+      throw new NotFoundException();
+    }
+
+    const formId = await this.formRepository.createNewForm(userId);
+
+    return { formId };
   }
 }

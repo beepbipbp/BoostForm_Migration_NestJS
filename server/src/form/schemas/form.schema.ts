@@ -41,7 +41,7 @@ export class Form extends Document {
   form_category: string;
 
   @Prop({
-    type: [Question],
+    type: Array<Question>,
   })
   questions: Question[];
 

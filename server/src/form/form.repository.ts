@@ -1,15 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model, Types } from "mongoose";
-import { User } from "src/user/user.schema";
+import { Model } from "mongoose";
 import { Form } from "./schemas/form.schema";
 
 @Injectable()
 export class FormRepository {
-  constructor(
-    @InjectModel(Form.name) private readonly formModel: Model<Form>,
-    @InjectModel(User.name) private readonly usemModel: Model<User>,
-  ) {}
+  constructor(@InjectModel(Form.name) private readonly formModel: Model<Form>) {}
 
   async findFormListWithCursor(userId: string, cursor: string) {
     const formList =
@@ -23,5 +19,13 @@ export class FormRepository {
             .exec();
 
     return formList;
+  }
+
+  async createNewForm(userId: string) {
+    const newForm = new this.formModel();
+    newForm.author_id = userId;
+    await newForm.save();
+
+    return newForm.id;
   }
 }
