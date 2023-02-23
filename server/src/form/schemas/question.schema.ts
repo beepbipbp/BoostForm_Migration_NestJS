@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsString, MaxLength } from "class-validator";
 import { Document } from "mongoose";
 import { questionTypeEnum } from "../enums/question-type.enum";
 
@@ -25,9 +25,11 @@ export class Question extends Document {
 
   @Prop({
     type: String,
+    maxlength: 100,
     default: "제목 없음",
   })
   @IsString()
+  @MaxLength(100)
   question_title: string;
 
   @Prop({
@@ -36,6 +38,7 @@ export class Question extends Document {
   @IsString({
     each: true,
   })
+  @MaxLength(100, { each: true })
   question_options: string[];
 
   @Prop({
@@ -43,14 +46,14 @@ export class Question extends Document {
     default: false,
   })
   @IsBoolean()
-  is_essential: boolean;
+  essential: boolean;
 
   @Prop({
     type: Boolean,
     default: false,
   })
   @IsBoolean()
-  is_etc_added: boolean;
+  etc_added: boolean;
 }
 
 export const QuestionSchema = SchemaFactory.createForClass(Question);
