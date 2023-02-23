@@ -1,4 +1,4 @@
-import { HttpException, Injectable, NestMiddleware } from "@nestjs/common";
+import { Injectable, NestMiddleware, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { NextFunction, Request, Response } from "express";
 import { UserRepository } from "src/user/user.repository";
@@ -12,7 +12,7 @@ export class AuthMiddleware implements NestMiddleware {
 
     if (!accessToken) {
       // accessToken이 없는 경우
-      throw new HttpException("Unauthorized", 401);
+      throw new UnauthorizedException();
     }
 
     const decodedAccessToken = await this.jwtService.verifyAsync(accessToken).catch(async (error) => {
@@ -27,7 +27,7 @@ export class AuthMiddleware implements NestMiddleware {
       }
 
       // 만료된 경우 이외의 오류
-      throw new HttpException("Unauthorized", 401);
+      throw new UnauthorizedException();
     });
 
     req.body.userId = decodedAccessToken.id;
@@ -38,10 +38,10 @@ export class AuthMiddleware implements NestMiddleware {
     const decodedRefreshToken = await this.jwtService.verifyAsync(refreshToken).catch(async (error) => {
       if (error.message === "jwt expired") {
         // refreshToken이 만료된 경우
-        throw new HttpException("refresh token is expired", 401);
+        throw new UnauthorizedException("refresh token is expired");
       }
       // 만료된 경우 이외의 오류
-      throw new HttpException("Unauthorized", 401);
+      throw new UnauthorizedException();
     });
 
     const userId = decodedRefreshToken.id;
@@ -50,13 +50,13 @@ export class AuthMiddleware implements NestMiddleware {
 
     if (!user) {
       // 유저가 존재하지 않는 경우
-      throw new HttpException("Unauthorized", 401);
+      throw new UnauthorizedException();
     }
 
     if (refreshToken !== user.refresh_token) {
       // refreshToken이 탈취당한 경우
       user.refresh_token = null;
-      throw new HttpException("Unauthorized", 401);
+      throw new UnauthorizedException();
     }
 
     // refreshToken 검증 후 새 token 발급

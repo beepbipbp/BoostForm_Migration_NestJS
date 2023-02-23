@@ -7,12 +7,12 @@ import { Question } from "./question.schema";
 @Schema({ timestamps: true })
 export class Form extends Document {
   @Prop({
-    type: Types.ObjectId,
+    type: String,
     required: true,
-    ref: "User",
+    index: true,
   })
   @IsEmpty()
-  author_id: Types.ObjectId;
+  author_id: string;
 
   @Prop({
     type: String,
@@ -79,6 +79,9 @@ export class Form extends Document {
   })
   @IsNumber()
   response_count: number;
+
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export const FormSchema = SchemaFactory.createForClass(Form);

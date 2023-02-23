@@ -1,5 +1,5 @@
 import { HttpService } from "@nestjs/axios";
-import { HttpException, Injectable } from "@nestjs/common";
+import { Injectable, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { UserRepository } from "./user.repository";
 
@@ -20,7 +20,7 @@ export class UserService {
       user = await this.userRepository.signUp(userName);
     }
     if (!user || typeof user.id !== "string") {
-      throw new HttpException("mongodb error", 500);
+      throw new InternalServerErrorException("mongodb error");
     }
 
     const accessToken = this.jwtService.sign({ id: user.id }, { expiresIn: "1m" });
@@ -44,7 +44,7 @@ export class UserService {
       .post("https://github.com/login/oauth/access_token", body, option)
       .then((response) => response.data.access_token)
       .catch((error) => {
-        throw new HttpException("failed to get github access token", 401);
+        throw new UnauthorizedException("failed to get github access token");
       });
 
     return githubAccessToken;
@@ -57,7 +57,7 @@ export class UserService {
       })
       .then((response) => response.data.login)
       .catch((error) => {
-        throw new HttpException("failed to get github id", 401);
+        throw new UnauthorizedException("failed to get github id");
       });
 
     return userName;

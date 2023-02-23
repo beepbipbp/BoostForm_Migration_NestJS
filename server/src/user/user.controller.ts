@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpException, Query, Res } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, HttpException, Query, Res } from "@nestjs/common";
 import { Response } from "express";
 import { UserService } from "./user.service";
 
@@ -14,7 +14,7 @@ export class UserController {
   @Get("login")
   async logIn(@Query("code") code: string, @Res() res: Response) {
     if (!code) {
-      throw new HttpException("code is empty", 400);
+      throw new BadRequestException("code is empty");
     }
 
     const tokens = await this.userService.login(code);
