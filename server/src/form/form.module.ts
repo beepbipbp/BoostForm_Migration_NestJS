@@ -7,6 +7,7 @@ import { UserModule } from "src/user/user.module";
 import { FormController } from "./form.controller";
 import { FormRepository } from "./form.repository";
 import { FormService } from "./form.service";
+import { FormCachingMiddleware } from "./middlewares/form-caching.middleware";
 import { Form, FormSchema } from "./schemas/form.schema";
 
 @Module({
@@ -27,5 +28,6 @@ export class FormModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(AuthMiddleware).forRoutes({ path: "api/forms/", method: RequestMethod.GET });
     consumer.apply(AuthMiddleware).forRoutes({ path: "api/forms/", method: RequestMethod.POST });
+    consumer.apply(FormCachingMiddleware).forRoutes({ path: "api/forms/:formId", method: RequestMethod.GET });
   }
 }

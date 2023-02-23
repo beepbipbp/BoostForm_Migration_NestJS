@@ -48,4 +48,42 @@ export class FormService {
 
     return { formId };
   }
+
+  async getForm(formId: string) {
+    const rawForm = await this.formRepository.getForm(formId);
+
+    if (!rawForm) {
+      throw new NotFoundException();
+    }
+
+    const rawQuestions = rawForm.questions;
+    const questions = rawQuestions?.map((question) => {
+      return {
+        questionId: question.question_order,
+        type: question.question_type,
+        essential: question.essential,
+        etcAdded: question.etc_added,
+        title: question.question_title,
+        option: question.question_options,
+      };
+    });
+
+    const form = {
+      id: `${rawForm._id}`,
+      userID: rawForm.author_id,
+      title: rawForm.form_title,
+      description: rawForm.form_description,
+      category: rawForm.form_category,
+      questionList: questions ? questions : [],
+      acceptResponse: rawForm.accept_response,
+      onBoard: rawForm.on_board,
+      loginRequired: rawForm.login_required,
+      responseCount: rawForm.response_count,
+      responseModifiable: rawForm.response_modifiable,
+      createdAt: rawForm.createdAt,
+      updatedAt: rawForm.updatedAt,
+    };
+
+    return form;
+  }
 }

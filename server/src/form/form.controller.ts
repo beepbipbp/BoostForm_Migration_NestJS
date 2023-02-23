@@ -4,6 +4,7 @@ import {
   Controller,
   Get,
   HttpCode,
+  Param,
   Post,
   Query,
   UnauthorizedException,
@@ -36,6 +37,13 @@ export class FormController {
     }
 
     const result = await this.formService.createNewForm(userId);
+
+    return result;
+  }
+
+  @Get(":formId")
+  async getForm(@Param("formId") formId: string) {
+    const result = await this.formService.getForm(formId);
 
     return result;
   }
