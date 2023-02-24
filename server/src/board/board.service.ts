@@ -9,5 +9,9 @@ export class BoardService {
     const searchQuery = filterByObjectKeys(query, searchKeyList);
     const sortQuery = filterByObjectKeys(query, sortKeyList);
     const pageNumber = query.page ? Number(query.page) : 1;
+
+    const cacheKey = `board:${JSON.stringify(searchQuery)},${sortQuery}`;
+    const pageCacheKey = `${cacheKey},{page:${pageNumber}}`;
+    const countCacheKey = `${cacheKey},{count}`;
   }
 }
