@@ -34,4 +34,8 @@ export class FormRepository {
 
     return form;
   }
+
+  async updateForm(formId: string, updatedForm: Form) {
+    await this.formModel.findOneAndUpdate({ _id: formId }, updatedForm);
+  }
 }

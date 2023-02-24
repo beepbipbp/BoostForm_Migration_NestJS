@@ -5,11 +5,15 @@ import {
   Get,
   HttpCode,
   Param,
+  Patch,
   Post,
   Query,
+  Res,
   UnauthorizedException,
 } from "@nestjs/common";
+import { Response } from "express";
 import { FormService } from "./form.service";
+import { FormRequestDto } from "./interfaces/form-dto.interface";
 
 @Controller("api/forms")
 export class FormController {
@@ -44,7 +48,15 @@ export class FormController {
   @Get(":formId")
   async getForm(@Param("formId") formId: string) {
     const result = await this.formService.getForm(formId);
-
     return result;
+  }
+
+  @Patch(":formId")
+  async updateForm(@Param("formId") formId: string, @Body() formRequestDto: FormRequestDto, @Res() res: Response) {
+    await this.formService.updateForm(formId, formRequestDto);
+
+    res.end();
+
+    this.formService.updateFormToRedis(formId);
   }
 }
