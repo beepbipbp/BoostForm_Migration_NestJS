@@ -7,6 +7,7 @@ import { AppService } from "./app.service";
 import { LoggerMiddleware } from "./common/middlewares/logger.middleware";
 import { UserModule } from "./user/user.module";
 import { FormModule } from "./form/form.module";
+import { BoardModule } from "./board/board.module";
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { FormModule } from "./form/form.module";
     }),
     UserModule,
     FormModule,
+    BoardModule,
   ],
   controllers: [AppController],
   providers: [AppService],
