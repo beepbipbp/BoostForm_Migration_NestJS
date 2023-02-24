@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { IsBoolean, IsEmpty, IsEnum, IsNumber, IsString, MaxLength } from "class-validator";
-import { Document, Types } from "mongoose";
+import { Document } from "mongoose";
+import { formCategoryList } from "../consts/form.consts";
 import { formCategoryEnum } from "../enums/form-category.enum";
 import { Question } from "./question.schema";
 
@@ -33,7 +34,7 @@ export class Form extends Document {
 
   @Prop({
     type: String,
-    enum: ["개발 및 학습", "취업 및 채용", "취미 및 여가", "기타"],
+    enum: formCategoryList,
     default: "기타",
   })
   @IsString()

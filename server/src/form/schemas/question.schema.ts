@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsString, MaxLength } from "class-validator";
 import { Document } from "mongoose";
+import { questionTypeList } from "../consts/questions.consts";
 import { questionTypeEnum } from "../enums/question-type.enum";
 
 @Schema()
@@ -16,7 +17,7 @@ export class Question extends Document {
   @Prop({
     type: String,
     required: true,
-    enum: ["checkbox", "multiple", "paragraph"],
+    enum: questionTypeList,
   })
   @IsNotEmpty()
   @IsString()
