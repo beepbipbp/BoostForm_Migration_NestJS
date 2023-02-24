@@ -1,4 +1,14 @@
-import { Controller } from "@nestjs/common";
+import { Controller, Get, Query } from "@nestjs/common";
+import { BoardService } from "./board.service";
 
-@Controller("board")
-export class BoardController {}
+@Controller("api/board")
+export class BoardController {
+  constructor(private readonly boardService: BoardService) {}
+
+  @Get()
+  async getFormList(@Query() query: any) {
+    const result = await this.boardService.getFormList(query);
+
+    return result;
+  }
+}
