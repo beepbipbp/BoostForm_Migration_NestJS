@@ -11,7 +11,7 @@ export class Question extends Document {
   })
   @IsNotEmpty()
   @IsNumber()
-  question_order: number;
+  question_id: number;
 
   @Prop({
     type: String,

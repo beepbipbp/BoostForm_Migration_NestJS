@@ -66,7 +66,7 @@ export class FormService {
     const rawQuestions = rawForm.questions;
     const questions = rawQuestions?.map((question) => {
       return {
-        questionId: question.question_order,
+        questionId: question.question_id,
         type: question.question_type,
         essential: question.essential,
         etcAdded: question.etc_added,
@@ -100,7 +100,7 @@ export class FormService {
     const questions = questionRequestDtos
       ? questionRequestDtos.map((questionRequestDto) => {
           return {
-            question_order: questionRequestDto.questionId,
+            question_id: questionRequestDto.questionId,
             question_type: questionRequestDto.type,
             question_title: questionRequestDto.title,
             question_options: questionRequestDto.option,
