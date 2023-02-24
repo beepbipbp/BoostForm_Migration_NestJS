@@ -30,5 +30,6 @@ export class FormModule implements NestModule {
     consumer.apply(AuthMiddleware).forRoutes({ path: "api/forms/", method: RequestMethod.POST });
     consumer.apply(FormCachingMiddleware).forRoutes({ path: "api/forms/:formId", method: RequestMethod.GET });
     consumer.apply(AuthMiddleware).forRoutes({ path: "api/forms/:formId", method: RequestMethod.PATCH });
+    consumer.apply(AuthMiddleware).forRoutes({ path: "api/forms/:formId", method: RequestMethod.DELETE });
   }
 }

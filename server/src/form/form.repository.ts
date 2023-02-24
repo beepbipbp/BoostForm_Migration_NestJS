@@ -38,4 +38,8 @@ export class FormRepository {
   async updateForm(formId: string, updatedForm: Form) {
     await this.formModel.findOneAndUpdate({ _id: formId }, updatedForm);
   }
+
+  async deleteForm(formId: string) {
+    await this.formModel.deleteOne({ _id: formId });
+  }
 }

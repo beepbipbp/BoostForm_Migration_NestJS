@@ -129,4 +129,8 @@ export class FormService {
 
     this.redis.set(`form:${formId}`, JSON.stringify(form), "EX", 300);
   }
+
+  async deleteForm(formId: string) {
+    await this.formRepository.deleteForm(formId);
+  }
 }

@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
@@ -58,5 +59,13 @@ export class FormController {
     res.end();
 
     this.formService.updateFormToRedis(formId);
+  }
+
+  @Delete(":formId")
+  @HttpCode(204)
+  async deleteForm(@Param("formId") formId: string, @Res() res: Response) {
+    await this.formService.deleteForm(formId);
+
+    res.end();
   }
 }
