@@ -1,6 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
+import { PAGE_SIZE, SELECTED_FIELDS } from "src/board/consts/board.consts";
+import { SearchQueryForRepository } from "src/board/interfaces/board.interface";
+import { SortQueryForRepository } from "src/board/types/board.type";
 import { Form } from "./schemas/form.schema";
 
 @Injectable()
@@ -41,5 +44,21 @@ export class FormRepository {
 
   async deleteForm(formId: string) {
     await this.formModel.deleteOne({ _id: formId });
+  }
+
+  async findFormListForBoard(
+    searchQuery: SearchQueryForRepository,
+    sortQuery: SortQueryForRepository,
+    pageNumber: number,
+  ) {
+    const formList = await this.formModel
+      .find(searchQuery, SELECTED_FIELDS)
+      .sort(sortQuery)
+      .skip((pageNumber - 1) * PAGE_SIZE)
+      .limit(PAGE_SIZE)
+      .lean()
+      .exec();
+
+    return formList;
   }
 }

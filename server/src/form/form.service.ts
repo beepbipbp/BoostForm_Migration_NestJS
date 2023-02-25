@@ -23,9 +23,9 @@ export class FormService {
       throw new NotFoundException();
     }
 
-    const rawFormList = await this.formRepository.findFormListWithCursor(userId, cursor);
+    const formList = await this.formRepository.findFormListWithCursor(userId, cursor);
 
-    const formList = rawFormList.map((form) => {
+    const formListForResponse = formList.map((form) => {
       return {
         _id: `${form._id}`,
         title: form.form_title,
@@ -36,10 +36,10 @@ export class FormService {
         response: form.response_count,
       };
     });
-    const lastId = formList.at(-1)?._id;
+    const lastId = formListForResponse.at(-1)?._id;
 
     return {
-      form: formList,
+      form: formListForResponse,
       lastId,
     };
   }
@@ -57,14 +57,14 @@ export class FormService {
   }
 
   async getForm(formId: string) {
-    const rawForm = await this.formRepository.getForm(formId);
+    const form = await this.formRepository.getForm(formId);
 
-    if (!rawForm) {
+    if (!form) {
       throw new NotFoundException();
     }
 
-    const rawQuestions = rawForm.questions;
-    const questions = rawQuestions?.map((question) => {
+    const questions = form.questions;
+    const questionsForResponse = questions?.map((question) => {
       return {
         questionId: question.question_id,
         type: question.question_type,
@@ -75,23 +75,23 @@ export class FormService {
       };
     });
 
-    const form = {
-      id: `${rawForm._id}`,
-      userID: rawForm.author_id,
-      title: rawForm.form_title,
-      description: rawForm.form_description,
-      category: rawForm.form_category,
+    const formForResponse = {
+      id: `${form._id}`,
+      userID: form.author_id,
+      title: form.form_title,
+      description: form.form_description,
+      category: form.form_category,
       questionList: questions ? questions : [],
-      acceptResponse: rawForm.accept_response,
-      onBoard: rawForm.on_board,
-      loginRequired: rawForm.login_required,
-      responseCount: rawForm.response_count,
-      responseModifiable: rawForm.response_modifiable,
-      createdAt: rawForm.createdAt,
-      updatedAt: rawForm.updatedAt,
+      acceptResponse: form.accept_response,
+      onBoard: form.on_board,
+      loginRequired: form.login_required,
+      responseCount: form.response_count,
+      responseModifiable: form.response_modifiable,
+      createdAt: form.createdAt,
+      updatedAt: form.updatedAt,
     };
 
-    return form;
+    return formForResponse;
   }
 
   async updateForm(formId: string, formRequestDto: FormRequestDto) {

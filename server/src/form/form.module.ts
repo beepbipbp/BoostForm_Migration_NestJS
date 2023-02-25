@@ -23,6 +23,7 @@ import { Form, FormSchema } from "./schemas/form.schema";
   ],
   controllers: [FormController],
   providers: [FormService, FormRepository],
+  exports: [FormRepository],
 })
 export class FormModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
