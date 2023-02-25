@@ -81,7 +81,7 @@ export class FormService {
       title: form.form_title,
       description: form.form_description,
       category: form.form_category,
-      questionList: questions ? questions : [],
+      questionList: questionsForResponse ? questionsForResponse : [],
       acceptResponse: form.accept_response,
       onBoard: form.on_board,
       loginRequired: form.login_required,
@@ -90,6 +90,8 @@ export class FormService {
       createdAt: form.createdAt,
       updatedAt: form.updatedAt,
     };
+
+    this.redis.set(`form:${formId}`, JSON.stringify(formForResponse), "EX", 300);
 
     return formForResponse;
   }
