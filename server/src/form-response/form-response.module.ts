@@ -3,6 +3,7 @@ import { ConfigService } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { MongooseModule } from "@nestjs/mongoose";
 import { AuthMiddleware } from "src/common/middlewares/auth.middleware";
+import { CheckAccessTokenMiddleware } from "src/common/middlewares/check-access-token.middleware";
 import { UserModule } from "src/user/user.module";
 import { FormResponseController } from "./form-response.controller";
 import { FormResponseRepository } from "./form-response.repository";
@@ -21,7 +22,7 @@ import { FormResponse, FormResponseSchema } from "./schemas/form-response.schema
     UserModule,
   ],
   controllers: [FormResponseController],
-  providers: [FormResponseService, FormResponseRepository],
+  providers: [FormResponseService, FormResponseRepository, AuthMiddleware],
 })
 export class FormResponseModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
