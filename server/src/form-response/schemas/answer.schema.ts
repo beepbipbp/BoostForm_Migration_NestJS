@@ -17,7 +17,7 @@ export class Answer extends Document {
   @IsString({
     each: true,
   })
-  selected_answer: string[];
+  selected_options: string[];
 }
 
 export const AnswerSchema = SchemaFactory.createForClass(Answer);

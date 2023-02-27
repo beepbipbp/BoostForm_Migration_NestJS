@@ -27,5 +27,6 @@ import { FormResponse, FormResponseSchema } from "./schemas/form-response.schema
 export class FormResponseModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(AuthMiddleware).forRoutes({ path: "api/responses/isSubmitted/:formId", method: RequestMethod.GET });
+    consumer.apply(CheckAccessTokenMiddleware).forRoutes({ path: "api/responses/:formId", method: RequestMethod.POST });
   }
 }
