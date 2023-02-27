@@ -13,6 +13,7 @@ export class Form extends Document {
     index: true,
   })
   @IsEmpty()
+  @IsString()
   author_id: string;
 
   @Prop({
