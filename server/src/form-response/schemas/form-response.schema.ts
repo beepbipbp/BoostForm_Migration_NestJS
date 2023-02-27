@@ -21,9 +21,9 @@ export class FormResponse extends Document {
   form_id: string;
 
   @Prop({
-    type: [Answer],
+    type: Array<Answer>,
   })
-  answer_list: Answer[];
+  answers: Answer[];
 }
 
 export const FormResponseSchema = SchemaFactory.createForClass(FormResponse);
