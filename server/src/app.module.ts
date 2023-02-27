@@ -8,6 +8,7 @@ import { LoggerMiddleware } from "./common/middlewares/logger.middleware";
 import { UserModule } from "./user/user.module";
 import { FormModule } from "./form/form.module";
 import { BoardModule } from "./board/board.module";
+import { FormResponseModule } from './form-response/form-response.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { BoardModule } from "./board/board.module";
     UserModule,
     FormModule,
     BoardModule,
+    FormResponseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
