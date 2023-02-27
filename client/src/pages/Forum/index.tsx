@@ -191,7 +191,7 @@ function Forum() {
               currentPage={page}
               lastPage={Number(data?.lastPage)}
               callback={(pageNumber: number) => {
-                setSearchParams({ page: pageNumber.toString(), category, keyword, orderBy: "responseDesc" });
+                setSearchParams({ page: pageNumber.toString(), category, keyword, orderBy });
               }}
             />
           </>
