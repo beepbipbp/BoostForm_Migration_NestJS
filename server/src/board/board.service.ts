@@ -2,9 +2,9 @@ import { Injectable } from "@nestjs/common";
 import { filterByObjectKeys } from "src/common/utils/filterByObjectKyes";
 import { pipe } from "src/common/utils/pipe";
 import { FormRepository } from "src/form/form.repository";
-import { SEARCH_KEY_LIST, SORT_KEY_LIST } from "./consts/board.consts";
-import { getFormListQuery, SearchQuery, SearchQueryForRepository, SortQuery } from "./interfaces/board.interface";
-import { SortQueryForRepository } from "./types/board.type";
+import { PAGE_SIZE, SEARCH_KEY_LIST, SORT_KEY_LIST } from "./consts/board.consts";
+import { getFormListQuery, SearchQuery, SortQuery } from "./interfaces/board.interface";
+import { RegExForMongoose } from "../common/interfaces/regex.interface";
 
 @Injectable()
 export class BoardService {
@@ -14,10 +14,6 @@ export class BoardService {
     const searchQuery = filterByObjectKeys(query, SEARCH_KEY_LIST);
     const sortQuery = filterByObjectKeys(query, SORT_KEY_LIST);
     const pageNumber = query.page ? Number(query.page) : 1;
-
-    const cacheKey = `board:${JSON.stringify(searchQuery)},${sortQuery}`;
-    const pageCacheKey = `${cacheKey},{page:${pageNumber}}`;
-    const countCacheKey = `${cacheKey},{count}`;
 
     const searchQueryForRepository = this.setSearchQueryOptions(searchQuery);
     const sortQueryForRepository = this.setSortQueryOptions(sortQuery);
@@ -37,6 +33,11 @@ export class BoardService {
         acceptResponse: form.accept_response,
       };
     });
+
+    const totalCount = await this.formRepository.getTotalCountForBoard(searchQueryForRepository);
+    const lastPage = Math.ceil(totalCount / PAGE_SIZE);
+
+    return { form: formListForResponse, lastPage };
   }
 
   setOnBoard(searchQuery: SearchQuery) {
@@ -44,12 +45,15 @@ export class BoardService {
   }
 
   setCategory(searchQuery: SearchQuery) {
-    if (searchQuery.category === "전체") {
-      const newSearchQuery = searchQuery;
-      delete newSearchQuery.category;
-      return newSearchQuery;
+    const updatedSearchQuery = { ...searchQuery };
+
+    if (updatedSearchQuery.category === "전체") {
+      delete updatedSearchQuery.category;
+      return updatedSearchQuery;
     } else {
-      return searchQuery;
+      updatedSearchQuery.form_category = updatedSearchQuery.category;
+      delete updatedSearchQuery.category;
+      return updatedSearchQuery;
     }
   }
 
@@ -58,10 +62,13 @@ export class BoardService {
       return searchQuery;
     }
     const { title } = searchQuery;
+    const titleRegEx: RegExForMongoose = { $regex: `${title}`, $options: "i" };
 
-    const titleRegEx = { $regex: `${title}`, $options: "i" };
+    const updatedSearchQuery = { ...searchQuery };
+    delete updatedSearchQuery.title;
+    updatedSearchQuery.form_title = titleRegEx;
 
-    return { ...searchQuery, title: titleRegEx };
+    return updatedSearchQuery;
   }
 
   setSearchQueryOptions = pipe(this.setOnBoard, this.setCategory, this.setTitleRegEx);

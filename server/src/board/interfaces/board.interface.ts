@@ -9,12 +9,14 @@ export interface getFormListQuery {
 
 export interface SearchQuery {
   title?: string | RegExForMongoose;
+  form_title?: string | RegExForMongoose;
   category?: string;
+  form_category?: string;
 }
 
 export interface SearchQueryForRepository {
-  title?: string | RegExForMongoose;
-  category?: string;
+  form_title?: string | RegExForMongoose;
+  form_category?: string;
   on_board: true;
 }
 

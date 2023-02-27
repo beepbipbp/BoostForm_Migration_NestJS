@@ -61,4 +61,10 @@ export class FormRepository {
 
     return formList;
   }
+
+  async getTotalCountForBoard(searchQuery: SearchQueryForRepository) {
+    const totalCount = await this.formModel.count(searchQuery).exec();
+
+    return totalCount;
+  }
 }
