@@ -15,7 +15,7 @@ export interface SearchQuery {
 export interface SearchQueryForRepository {
   title?: string | RegExForMongoose;
   category?: string;
-  on_board: boolean;
+  on_board: true;
 }
 
 export interface SortQuery {
