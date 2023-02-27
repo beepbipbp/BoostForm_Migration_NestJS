@@ -9,7 +9,7 @@ export class FormResponse extends Document {
     type: String,
   })
   @IsString()
-  user_id: string;
+  respondent_id: string;
 
   @Prop({
     type: String,
