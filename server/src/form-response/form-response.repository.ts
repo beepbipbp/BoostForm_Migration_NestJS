@@ -15,9 +15,15 @@ export class FormResponseRepository {
     return response;
   }
 
-  makeNewFormResponse(userId: string, formId: string, answers: Answer[]) {
+  makeNewFormResponse(userId: string | undefined, formId: string, answers: Answer[]) {
     const newResponse = new this.formResponseModel({ respondent_id: userId, form_id: formId, answers });
 
     return newResponse;
+  }
+
+  async findFormResponse(formResponseId: string) {
+    const formResponse = await this.formResponseModel.findById(formResponseId);
+
+    return formResponse;
   }
 }

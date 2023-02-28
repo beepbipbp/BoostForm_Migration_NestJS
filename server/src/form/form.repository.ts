@@ -32,7 +32,7 @@ export class FormRepository {
     return newForm.id;
   }
 
-  async getForm(formId: string) {
+  async findForm(formId: string) {
     const form = await this.formModel.findById(formId).lean().exec();
 
     return form;

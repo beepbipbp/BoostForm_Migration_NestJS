@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post } from "@nestjs/common";
 import { FormResponseService } from "./form-response.service";
 import { AnswerRequestDto } from "./interfaces/answer-dto.interface";
 
@@ -7,7 +7,7 @@ export class FormResponseController {
   constructor(private readonly formResponseService: FormResponseService) {}
 
   @Get("isSubmitted/:formId")
-  async checkFormResponseExistence(@Body("userId") userId: string, @Param("formId") formId: string) {
+  async checkFormResponseExistence(@Param("formId") formId: string, @Body("userId") userId: string) {
     const result = await this.formResponseService.checkFormResponseExistence(userId, formId);
 
     return result;
@@ -15,11 +15,32 @@ export class FormResponseController {
 
   @Post(":formId")
   async saveFormResponse(
-    @Body("userId") userId: string,
-    @Body("answerList") answersRequestDto: AnswerRequestDto[],
     @Param("formId") formId: string,
+    @Body("userId") userId: string | undefined,
+    @Body("answerList") answersRequestDto: AnswerRequestDto[],
   ) {
     const result = await this.formResponseService.saveFormResponse(userId, formId, answersRequestDto);
+
+    return result;
+  }
+
+  @Get(":formId/:formResponseId")
+  async revistFormResponse(
+    @Param("formId") formId: string,
+    @Param("formResponseId") formResponseId: string,
+    @Body("userId") userId: string,
+  ) {
+    const result = await this.formResponseService.getFormResponse(userId, formId, formResponseId);
+
+    return result;
+  }
+
+  @Patch(":formId/:formResponseId")
+  async updateFormResponse(
+    @Param("formResponseId") formResponseId: string,
+    @Body("answerList") answersRequestDto: AnswerRequestDto[],
+  ) {
+    const result = await this.formResponseService.updateFormResponse(formResponseId, answersRequestDto);
 
     return result;
   }

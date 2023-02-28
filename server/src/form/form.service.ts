@@ -57,7 +57,7 @@ export class FormService {
   }
 
   async getForm(formId: string) {
-    const form = await this.formRepository.getForm(formId);
+    const form = await this.formRepository.findForm(formId);
 
     if (!form) {
       throw new NotFoundException();
