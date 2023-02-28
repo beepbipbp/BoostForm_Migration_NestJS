@@ -1,11 +1,11 @@
-import ResponseSaveScheduler from "./Scheduler/ResponseSaveScheduler.js";
-import CountIncreaseScheduler from "./Scheduler/CountIncreaseScheduler.js";
-import ResponseUpdateScheduler from "./Scheduler/ResponseUpdateScheduler.js";
+import ResponseSaveScheduler from "./schedulers/ResponseSaveScheduler.js";
+import CountIncreaseScheduler from "./schedulers/CountIncreaseScheduler.js";
+import ResponseUpdateScheduler from "./schedulers/ResponseUpdateScheduler.js";
 
 try {
-  ResponseSaveScheduler.init();
-  CountIncreaseScheduler.init();
-  ResponseUpdateScheduler.init();
+	ResponseSaveScheduler.init();
+	CountIncreaseScheduler.init();
+	ResponseUpdateScheduler.init();
 } catch (err) {
-  console.log(err);
+	console.log(err);
 }
