@@ -20,7 +20,7 @@ export default class FormResponseSaveScheduler extends Scheduler {
 							const formResponseObj = JSON.parse(formResponseSaveList[formResponseId]);
 							const response = new FormResponse(formResponseObj);
 
-							response.save().then(redisCli.hDel("response", formResponseId)).then(res());
+							response.save().then(redisCli.hDel("form-response", formResponseId)).then(res());
 						});
 					})
 				);
