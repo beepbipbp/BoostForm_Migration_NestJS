@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { questionTypeList, formCategoryList } from "./form.const.js";
 
-const QuestionSchema = new mongoose.Schema({
+export const QuestionSchema = new mongoose.Schema({
 	question_id: {
 		type: Number,
 		required: true,
@@ -29,7 +29,7 @@ const QuestionSchema = new mongoose.Schema({
 	},
 });
 
-const FormSchema = new mongoose.Schema(
+export const FormSchema = new mongoose.Schema(
 	{
 		author_id: {
 			type: Number,
@@ -78,5 +78,3 @@ const FormSchema = new mongoose.Schema(
 		timestamps: true,
 	}
 );
-
-export { QuestionSchema, FormSchema };

@@ -1,15 +1,15 @@
 import schedule from "node-schedule";
-import Scheduler from "./Scheduler.js";
+import Scheduler from "./scheduler.js";
 import { redisCli } from "../connect.js";
-import Form from "../form/Form.Model.js";
+import Form from "../form/form.model.js";
 
-class CountIncreaseScheduler extends Scheduler {
+export default class CountScheduler extends Scheduler {
 	static isWorking = false;
 
 	static init() {
 		schedule.scheduleJob("*/30 * * * * *", async () => {
-			const countIncreaseListLength = await redisCli.hLen("count");
-			if (!this.isWorking && countIncreaseListLength) {
+			const countListLength = await redisCli.hLen("count");
+			if (!this.isWorking && countListLength) {
 				this.isWorking = true;
 
 				const countList = await redisCli.hGetAll("count");
@@ -26,7 +26,7 @@ class CountIncreaseScheduler extends Scheduler {
 									if ((await redisCli.hGet("count", formId)) === "0") {
 										await redisCli.hDel("count", formId);
 									}
-									res(true);
+									res();
 								});
 						});
 					})
@@ -38,5 +38,3 @@ class CountIncreaseScheduler extends Scheduler {
 		});
 	}
 }
-
-export default CountIncreaseScheduler;

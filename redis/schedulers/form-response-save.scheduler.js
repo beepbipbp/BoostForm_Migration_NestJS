@@ -3,7 +3,7 @@ import Scheduler from "./scheduler.js";
 import { redisCli } from "../connect.js";
 import FormResponse from "../form-response/form-response.model.js";
 
-class FormResponseSaveScheduler extends Scheduler {
+export default class FormResponseSaveScheduler extends Scheduler {
 	static isWorking = false;
 
 	static init() {
@@ -20,7 +20,7 @@ class FormResponseSaveScheduler extends Scheduler {
 							const formResponseObj = JSON.parse(formResponseSaveList[formResponseId]);
 							const response = new FormResponse(formResponseObj);
 
-							response.save().then(redisCli.hDel("response", formResponseId)).then(res(true));
+							response.save().then(redisCli.hDel("response", formResponseId)).then(res());
 						});
 					})
 				);
@@ -31,5 +31,3 @@ class FormResponseSaveScheduler extends Scheduler {
 		});
 	}
 }
-
-export default FormResponseSaveScheduler;

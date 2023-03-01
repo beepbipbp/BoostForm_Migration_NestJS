@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const AnswerSchema = new mongoose.Schema({
+export const AnswerSchema = new mongoose.Schema({
 	question_id: {
 		type: Number,
 		required: true,
@@ -10,7 +10,7 @@ const AnswerSchema = new mongoose.Schema({
 	},
 });
 
-const FormResponseSchema = new mongoose.Schema({
+export const FormResponseSchema = new mongoose.Schema({
 	respondent_id: {
 		type: String,
 	},
@@ -23,5 +23,3 @@ const FormResponseSchema = new mongoose.Schema({
 		type: [AnswerSchema],
 	},
 });
-
-export { AnswerSchema, FormResponseSchema };
