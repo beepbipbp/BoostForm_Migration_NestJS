@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { FormResponseSchema } from "./Response.Schema.js";
+import { FormResponseSchema } from "./form-response.schema.js";
 
 const FormResponse = mongoose.model("Response", FormResponseSchema);
 

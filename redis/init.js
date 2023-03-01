@@ -1,9 +1,9 @@
-import ResponseSaveScheduler from "./schedulers/ResponseSaveScheduler.js";
+import FormResponseSaveScheduler from "./schedulers/form-response-save.scheduler.js";
 import CountIncreaseScheduler from "./schedulers/CountIncreaseScheduler.js";
 import ResponseUpdateScheduler from "./schedulers/ResponseUpdateScheduler.js";
 
 try {
-	ResponseSaveScheduler.init();
+	FormResponseSaveScheduler.init();
 	CountIncreaseScheduler.init();
 	ResponseUpdateScheduler.init();
 } catch (err) {
