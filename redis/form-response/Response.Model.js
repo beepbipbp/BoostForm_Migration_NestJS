@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { ResponseSchema } from "./Response.Schema.js";
+import { FormResponseSchema } from "./Response.Schema.js";
 
-const FormResponse = mongoose.model("Response", ResponseSchema);
+const FormResponse = mongoose.model("Response", FormResponseSchema);
 
 export default FormResponse;

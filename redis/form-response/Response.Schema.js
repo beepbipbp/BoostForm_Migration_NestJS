@@ -1,25 +1,27 @@
 import mongoose from "mongoose";
 
 const AnswerSchema = new mongoose.Schema({
-  question_id: {
-    type: Number,
-  },
-  answer: {
-    type: [String],
-  },
+	question_id: {
+		type: Number,
+		required: true,
+	},
+	selected_options: {
+		type: [String],
+	},
 });
 
-const ResponseSchema = new mongoose.Schema({
-  user_id: {
-    type: Number,
-  },
-  form_id: {
-    type: String,
-    index: true,
-  },
-  answer_list: {
-    type: [AnswerSchema],
-  },
+const FormResponseSchema = new mongoose.Schema({
+	respondent_id: {
+		type: String,
+	},
+	form_id: {
+		type: String,
+		required: true,
+		index: true,
+	},
+	answers: {
+		type: [AnswerSchema],
+	},
 });
 
-export { AnswerSchema, ResponseSchema };
+export { AnswerSchema, FormResponseSchema };
