@@ -37,8 +37,16 @@ export class ResultService {
         type: question.question_type,
         questionTitle: question.question_title,
         responseCount: 0,
-        answerTotal: this.initAnswerTotal(question);
-      }
-    })
+        answerTotal: this.initAnswerTotal(question),
+      };
+    });
+  }
+
+  initAnswerTotal(question: LeanDocument<Question>) {
+    const answerTotal = new Object();
+    question.question_options.forEach((questionOption) => {
+      answerTotal[questionOption] = 0;
+    });
+    return answerTotal;
   }
 }
