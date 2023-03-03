@@ -9,6 +9,7 @@ import { UserModule } from "./user/user.module";
 import { FormModule } from "./form/form.module";
 import { BoardModule } from "./board/board.module";
 import { FormResponseModule } from './form-response/form-response.module';
+import { ResultModule } from './result/result.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { FormResponseModule } from './form-response/form-response.module';
     FormModule,
     BoardModule,
     FormResponseModule,
+    ResultModule,
   ],
   controllers: [AppController],
   providers: [AppService],
