@@ -7,7 +7,7 @@ export default class FormResponseUpdateScheduler extends Scheduler {
 	static isWorking = false;
 
 	static init() {
-		schedule.scheduleJob("*/30 * * * * *", async () => {
+		schedule.scheduleJob("*/5 * * * * *", async () => {
 			const formResponseUpdateListLength = await redisCli.hLen("form-response-update");
 			if (!this.isWorking && formResponseUpdateListLength) {
 				this.isWorking = true;

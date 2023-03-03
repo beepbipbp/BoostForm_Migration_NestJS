@@ -7,7 +7,7 @@ export default class CountScheduler extends Scheduler {
 	static isWorking = false;
 
 	static init() {
-		schedule.scheduleJob("*/30 * * * * *", async () => {
+		schedule.scheduleJob("*/5 * * * * *", async () => {
 			const countListLength = await redisCli.hLen("count");
 			if (!this.isWorking && countListLength) {
 				this.isWorking = true;

@@ -38,7 +38,7 @@ export class ResultService {
   initQuestionResultDictionaray(form: LeanDocument<Form>) {
     const questionResultDictionary = new Object();
     form.questions.forEach((question: LeanDocument<Question>) => {
-      question[question.question_id] = {
+      questionResultDictionary[question.question_id] = {
         type: question.question_type,
         questionTitle: question.question_title,
         responseCount: 0,

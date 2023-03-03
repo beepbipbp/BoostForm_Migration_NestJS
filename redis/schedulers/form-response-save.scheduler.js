@@ -7,7 +7,7 @@ export default class FormResponseSaveScheduler extends Scheduler {
 	static isWorking = false;
 
 	static init() {
-		schedule.scheduleJob("*/30 * * * * *", async () => {
+		schedule.scheduleJob("*/5 * * * * *", async () => {
 			const formResponseSaveListLength = await redisCli.hLen("form-response");
 			if (!this.isWorking && formResponseSaveListLength) {
 				this.isWorking = true;
