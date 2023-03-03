@@ -26,4 +26,10 @@ export class FormResponseRepository {
 
     return formResponse;
   }
+
+  async findFormResponseListByFormId(formId: string) {
+    const formResponseList = await this.formResponseModel.find({ form_id: formId }).lean().exec();
+
+    return formResponseList;
+  }
 }
