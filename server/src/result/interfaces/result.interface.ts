@@ -10,7 +10,7 @@ export interface QuestionResult {
 }
 
 export interface QuestionResultDictionary {
-  [key: string]: QuestionResult;
+  [key: number]: QuestionResult;
 }
 
 export interface Result {

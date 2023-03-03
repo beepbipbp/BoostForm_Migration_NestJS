@@ -65,4 +65,13 @@ export class ResultService {
   aggregateFormResponse(result: Result, formResponse: LeanDocument<FormResponse>) {
     formResponse.answers.forEach((answer: Answer) => this.aggregateAnswer(result, answer));
   }
+
+  aggregateAnswer(result: Result, answer: Answer) {
+    if (!(answer.question_id in result.questionResultDict)) {
+      return;
+    }
+
+    result.questionResultDict[answer.question_id].responseCount++;
+    answer.selected_options.forEach((selectedOption: string) => this.countOptionSelected(result, selectedOption));
+  }
 }
