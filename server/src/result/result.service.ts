@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { LeanDocument } from "mongoose";
 import { FormResponseRepository } from "src/form-response/form-response.repository";
+import { Answer } from "src/form-response/schemas/answer.schema";
 import { FormResponse } from "src/form-response/schemas/form-response.schema";
 import { FormRepository } from "src/form/form.repository";
 import { Form } from "src/form/schemas/form.schema";
@@ -59,5 +60,9 @@ export class ResultService {
 
   completeResult(result: Result, formResponseList: LeanDocument<FormResponse>[]) {
     formResponseList.forEach((formResponse) => this.aggregateFormResponse(result, formResponse));
+  }
+
+  aggregateFormResponse(result: Result, formResponse: LeanDocument<FormResponse>) {
+    formResponse.answers.forEach((answer: Answer) => this.aggregateAnswer(result, answer));
   }
 }
