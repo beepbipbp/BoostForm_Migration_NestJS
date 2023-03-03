@@ -67,11 +67,22 @@ export class ResultService {
   }
 
   aggregateAnswer(result: Result, answer: Answer) {
-    if (!(answer.question_id in result.questionResultDict)) {
+    const questionId = answer.question_id;
+    if (!(questionId in result.questionResultDict)) {
       return;
     }
 
-    result.questionResultDict[answer.question_id].responseCount++;
-    answer.selected_options.forEach((selectedOption: string) => this.countOptionSelected(result, selectedOption));
+    result.questionResultDict[questionId].responseCount++;
+    answer.selected_options.forEach((selectedOption: string) =>
+      this.countOptionSelected(result, questionId, selectedOption),
+    );
+  }
+
+  countOptionSelected(result: Result, questionId: number, selectedOption: string) {
+    if (selectedOption in result.questionResultDict[questionId].answerTotal) {
+      result.questionResultDict[questionId].answerTotal[selectedOption]++;
+    } else {
+      result.questionResultDict[questionId].answerTotal[selectedOption] = 0;
+    }
   }
 }
