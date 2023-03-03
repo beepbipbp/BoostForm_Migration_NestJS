@@ -27,6 +27,8 @@ export class ResultService {
       questionResultDict: this.initQuestionResultDictionaray(form),
     };
 
+    this.updateResult(result, formResponseList);
+
     return result;
   }
 
@@ -40,6 +42,8 @@ export class ResultService {
         answerTotal: this.initAnswerTotal(question),
       };
     });
+
+    return questionResultDictionary;
   }
 
   initAnswerTotal(question: LeanDocument<Question>) {
@@ -47,6 +51,7 @@ export class ResultService {
     question.question_options.forEach((questionOption) => {
       answerTotal[questionOption] = 0;
     });
+
     return answerTotal;
   }
 }
