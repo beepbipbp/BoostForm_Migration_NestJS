@@ -23,6 +23,7 @@ import { FormResponse, FormResponseSchema } from "./schemas/form-response.schema
   ],
   controllers: [FormResponseController],
   providers: [FormResponseService, FormResponseRepository, AuthMiddleware],
+  exports: [FormResponseRepository],
 })
 export class FormResponseModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
