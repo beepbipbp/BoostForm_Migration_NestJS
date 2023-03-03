@@ -1,9 +1,11 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { LeanDocument } from "mongoose";
 import { FormResponseRepository } from "src/form-response/form-response.repository";
+import { FormResponse } from "src/form-response/schemas/form-response.schema";
 import { FormRepository } from "src/form/form.repository";
 import { Form } from "src/form/schemas/form.schema";
 import { Question } from "src/form/schemas/question.schema";
+import { AnswerTotal, QuestionResult, QuestionResultDictionary, Result } from "./interfaces/result.interface";
 
 @Injectable()
 export class ResultService {
@@ -27,7 +29,7 @@ export class ResultService {
       questionResultDict: this.initQuestionResultDictionaray(form),
     };
 
-    this.updateResult(result, formResponseList);
+    this.completeResult(result, formResponseList);
 
     return result;
   }
@@ -40,10 +42,10 @@ export class ResultService {
         questionTitle: question.question_title,
         responseCount: 0,
         answerTotal: this.initAnswerTotal(question),
-      };
+      } as QuestionResult;
     });
 
-    return questionResultDictionary;
+    return questionResultDictionary as QuestionResultDictionary;
   }
 
   initAnswerTotal(question: LeanDocument<Question>) {
@@ -52,6 +54,10 @@ export class ResultService {
       answerTotal[questionOption] = 0;
     });
 
-    return answerTotal;
+    return answerTotal as AnswerTotal;
+  }
+
+  completeResult(result: Result, formResponseList: LeanDocument<FormResponse>[]) {
+    formResponseList.forEach((formResponse) => this.aggregateFormResponse(result, formResponse));
   }
 }
