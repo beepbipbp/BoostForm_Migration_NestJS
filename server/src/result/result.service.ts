@@ -3,6 +3,7 @@ import { LeanDocument } from "mongoose";
 import { FormResponseRepository } from "src/form-response/form-response.repository";
 import { FormRepository } from "src/form/form.repository";
 import { Form } from "src/form/schemas/form.schema";
+import { Question } from "src/form/schemas/question.schema";
 
 @Injectable()
 export class ResultService {
@@ -29,5 +30,15 @@ export class ResultService {
     return result;
   }
 
-  initQuestionResultDictionaray(form: LeanDocument<Form>) {}
+  initQuestionResultDictionaray(form: LeanDocument<Form>) {
+    const questionResultDictionary = new Object();
+    form.questions.forEach((question: LeanDocument<Question>) => {
+      question[question.question_id] = {
+        type: question.question_type,
+        questionTitle: question.question_title,
+        responseCount: 0,
+        answerTotal: this.initAnswerTotal(question);
+      }
+    })
+  }
 }
